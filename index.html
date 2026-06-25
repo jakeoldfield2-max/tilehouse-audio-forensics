@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tilehouse Audio Forensics — Independent Expert Witness</title>
+<meta name="description" content="Court-compliant audio analysis and forensic linguistics for criminal, civil, and family law proceedings across the UK." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     TILEHOUSE AUDIO FORENSICS — single-page mockup (v1)
+     Palette + type derived from tilehousestudios.com
+     Fonts here (Fraunces / Inter) stand in for the brand's
+     Recoleta / Neue Haas Grotesk until the licensed kit is added.
+     ============================================================ */
+  :root {
+    --ink:        #1C1C1A;
+    --ink-raised: #232320;
+    --ink-deep:   #151513;
+    --gold:       #C0A172;
+    --gold-bright:#D4B66A;
+    --cream:      #EDE9E0;
+    --cream-dim:  rgba(237, 233, 224, 0.62);
+    --cream-faint:rgba(237, 233, 224, 0.40);
+    --line:       rgba(192, 161, 114, 0.22);
+    --line-soft:  rgba(237, 233, 224, 0.10);
+
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+    --maxw: 1180px;
+    --gutter: clamp(20px, 5vw, 64px);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; line-height: 1.08; }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
+
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 26px; height: 1px;
+    background: var(--gold);
+    opacity: 0.8;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--sans);
+    font-size: 0.86rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.85rem 1.5rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    background: transparent;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease, transform .15s ease;
+  }
+  .btn:hover { background: var(--gold); color: var(--ink-deep); }
+  .btn:active { transform: translateY(1px); }
+  .btn--solid { background: var(--gold-bright); border-color: var(--gold-bright); color: var(--ink-deep); }
+  .btn--solid:hover { background: var(--cream); border-color: var(--cream); }
+  .btn--lg { padding: 1.05rem 2rem; font-size: 0.95rem; }
+
+  :where(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid var(--gold-bright);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(21, 21, 19, 0.78);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav__inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 74px;
+  }
+  .brand { display: flex; flex-direction: column; line-height: 1; }
+  .brand__name { font-family: var(--serif); font-size: 1.18rem; letter-spacing: 0.02em; color: var(--cream); }
+  .brand__sub { font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold); margin-top: 5px; }
+  .nav__links { display: flex; align-items: center; gap: 2rem; }
+  .nav__links a.navlink { font-size: 0.82rem; letter-spacing: 0.06em; color: var(--cream-dim); transition: color .2s ease; }
+  .nav__links a.navlink:hover { color: var(--cream); }
+  .nav__cta { margin-left: 0.5rem; }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; padding: clamp(5rem, 12vh, 9rem) 0 clamp(4rem, 9vh, 7rem); }
+  .hero__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  /* faint frequency grid */
+  .hero__bg::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(to right, var(--line-soft) 0 1px, transparent 1px 84px);
+    opacity: 0.5;
+    -webkit-mask-image: radial-gradient(120% 90% at 75% 30%, #000 30%, transparent 75%);
+            mask-image: radial-gradient(120% 90% at 75% 30%, #000 30%, transparent 75%);
+  }
+  .hero__glow {
+    position: absolute; right: -10%; top: -20%;
+    width: 60vw; height: 60vw; max-width: 760px; max-height: 760px;
+    background: radial-gradient(circle, rgba(192,161,114,0.10), transparent 62%);
+    z-index: 0; pointer-events: none;
+  }
+  .hero__inner { position: relative; z-index: 2; max-width: 820px; }
+  .hero h1 {
+    font-size: clamp(2.7rem, 7vw, 5.2rem);
+    letter-spacing: -0.01em;
+    margin: 0.4rem 0 1.4rem;
+    color: #fff;
+  }
+  .hero h1 .accent { color: var(--gold); font-style: italic; }
+  .hero__lead {
+    font-family: var(--serif);
+    font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+    color: var(--cream);
+    font-weight: 300;
+    max-width: 40ch;
+    margin-bottom: 1.1rem;
+  }
+  .hero__sub { color: var(--cream-dim); max-width: 56ch; margin-bottom: 2.2rem; font-size: 1.02rem; }
+  .hero__rule { width: 64px; height: 2px; background: var(--gold); margin: 0 0 1.6rem; }
+  .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+  .hero__note { font-size: 0.78rem; color: var(--cream-faint); letter-spacing: 0.04em; }
+
+  /* spectrogram signature band */
+  .spectro { position: absolute; left: 0; right: 0; bottom: 0; height: 150px; z-index: 1; display: flex; align-items: flex-end; gap: 3px; padding: 0 var(--gutter); opacity: 0.55;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 70%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 12%, #000 70%, transparent); }
+  .spectro__bar { flex: 1 1 auto; background: linear-gradient(to top, rgba(192,161,114,0.05), var(--gold)); border-radius: 1px; transform-origin: bottom; }
+
+  /* ---------- Section scaffolding ---------- */
+  .section { padding: clamp(4.5rem, 10vh, 7.5rem) 0; position: relative; }
+  .section--alt { background: var(--ink-deep); }
+  .section__head { max-width: 640px; margin-bottom: 3.2rem; }
+  .section__head h2 { font-size: clamp(2rem, 4.4vw, 3rem); color: #fff; }
+  .section__head p { color: var(--cream-dim); margin-top: 1.1rem; font-size: 1.05rem; }
+  .spectral-rule { display: flex; gap: 3px; align-items: flex-end; height: 22px; margin: 0 0 2.4rem; opacity: 0.5;
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 40%, transparent 90%);
+            mask-image: linear-gradient(to right, #000 0%, #000 40%, transparent 90%); }
+  .spectral-rule span { width: 3px; background: var(--gold); border-radius: 1px; }
+
+  /* ---------- Services ---------- */
+  .services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .service { background: var(--ink); padding: clamp(1.8rem, 3.5vw, 2.6rem); transition: background-color .3s ease; }
+  .service:hover { background: var(--ink-raised); }
+  .service__icon { width: 40px; height: 40px; color: var(--gold); margin-bottom: 1.3rem; }
+  .service__icon svg { width: 100%; height: 100%; }
+  .service h3 { font-size: 1.4rem; color: var(--cream); margin-bottom: 0.7rem; }
+  .service p { color: var(--cream-dim); font-size: 0.97rem; }
+  .service__num { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.2em; color: var(--gold); opacity: 0.7; float: right; }
+
+  /* ---------- Credentials / pillars ---------- */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.6rem); margin-bottom: 3rem; }
+  .pillar { border-top: 2px solid var(--gold); padding-top: 1.4rem; }
+  .pillar__label { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+  .pillar h3 { font-size: 1.35rem; color: var(--cream); margin-bottom: 0.7rem; }
+  .pillar p { color: var(--cream-dim); font-size: 0.95rem; }
+  .creds-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; border-top: 1px solid var(--line); padding-top: 2rem; }
+  .creds-strip .item { display: flex; gap: 1rem; align-items: flex-start; }
+  .creds-strip .item .dot { color: var(--gold); margin-top: 2px; flex: none; }
+  .creds-strip .item strong { color: var(--cream); font-weight: 500; display: block; font-size: 0.95rem; }
+  .creds-strip .item span { color: var(--cream-dim); font-size: 0.9rem; }
+
+  /* ---------- Form / Instruction portal ---------- */
+  .portal { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+  .portal__intro h2 { font-size: clamp(2rem, 4.4vw, 3rem); color: #fff; margin-bottom: 1.2rem; }
+  .portal__intro p { color: var(--cream-dim); margin-bottom: 1.4rem; }
+  .portal__assure { display: flex; gap: 0.7rem; align-items: center; color: var(--gold); font-size: 0.85rem; letter-spacing: 0.04em; }
+  .form { background: var(--ink-raised); border: 1px solid var(--line); border-radius: 6px; padding: clamp(1.6rem, 3.5vw, 2.6rem); }
+  .field { margin-bottom: 1.3rem; }
+  .field:last-of-type { margin-bottom: 1.7rem; }
+  .field label { display: block; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 0.55rem; }
+  .field .hint { text-transform: none; letter-spacing: 0; color: var(--cream-faint); font-size: 0.74rem; margin-left: 0.4rem; }
+  .field input, .field select, .field textarea {
+    width: 100%; background: var(--ink-deep); border: 1px solid var(--line-soft);
+    color: var(--cream); font-family: var(--sans); font-size: 0.95rem;
+    padding: 0.8rem 0.9rem; border-radius: 3px; transition: border-color .2s ease;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: var(--cream-faint); }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
+  .field textarea { resize: vertical; min-height: 120px; }
+  .field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C0A172' d='M6 8 0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.4rem; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+
+  /* ---------- Footer ---------- */
+  .footer { background: var(--ink-deep); border-top: 1px solid var(--line); padding: 3rem 0; }
+  .footer__inner { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .footer__brand { font-family: var(--serif); font-size: 1.1rem; color: var(--cream); margin-bottom: 0.6rem; }
+  .footer__legal { color: var(--cream-faint); font-size: 0.82rem; max-width: 60ch; line-height: 1.7; }
+  .footer__meta { color: var(--cream-faint); font-size: 0.78rem; text-align: right; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .nav__links { gap: 1.1rem; }
+    .nav__links a.navlink { display: none; }
+    .services { grid-template-columns: 1fr; }
+    .pillars { grid-template-columns: 1fr; }
+    .creds-strip { grid-template-columns: 1fr; }
+    .portal { grid-template-columns: 1fr; }
+    .footer__meta { text-align: left; }
+  }
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__inner > * { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+    .hero__inner > *:nth-child(2){ animation-delay:.06s } .hero__inner > *:nth-child(3){ animation-delay:.12s }
+    .hero__inner > *:nth-child(4){ animation-delay:.18s } .hero__inner > *:nth-child(5){ animation-delay:.24s }
+    .hero__inner > *:nth-child(6){ animation-delay:.30s }
+    @keyframes rise { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform:none; } }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a class="brand" href="#top">
+        <span class="brand__name">Tilehouse Audio Forensics</span>
+        <span class="brand__sub">Independent Expert Witness</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a class="navlink" href="#services">Services</a>
+        <a class="navlink" href="#credentials">Credentials</a>
+        <a class="btn nav__cta" href="#instruct">Submit Secure Inquiry</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero__bg"></div>
+    <div class="hero__glow"></div>
+    <div class="wrap hero__inner">
+      <span class="eyebrow">Audio Analysis &amp; Forensic Linguistics</span>
+      <h1>Scientific clarity for <span class="accent">contested</span> audio evidence.</h1>
+      <div class="hero__rule"></div>
+      <p class="hero__lead">Court-compliant analysis for criminal, civil, and family law proceedings across the UK.</p>
+      <p class="hero__sub">Independent expert-witness work at the intersection of acoustic science, linguistics, and the law — authentication, disputed-utterance analysis, and cross-examinable transcription.</p>
+      <div class="hero__actions">
+        <a class="btn btn--solid btn--lg" href="#instruct">Submit Secure Inquiry</a>
+      </div>
+    </div>
+    <div class="spectro" id="spectro" aria-hidden="true"></div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="spectral-rule" id="rule1" aria-hidden="true"></div>
+      <div class="section__head">
+        <span class="eyebrow">Core Services</span>
+        <h2>Scientific expertise applied to legal evidence</h2>
+      </div>
+      <div class="services">
+        <article class="service">
+          <span class="service__num">01</span>
+          <div class="service__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2 4 5v6c0 5 3.4 8.4 8 11 4.6-2.6 8-6 8-11V5l-8-3Z"/><path d="m8.5 12 2.5 2.5L16 9"/></svg>
+          </div>
+          <h3>Audio Authentication</h3>
+          <p>Detecting edits, digital tampering, and continuity gaps in covert recordings, bodycam footage, and digital exhibits.</p>
+        </article>
+        <article class="service">
+          <span class="service__num">02</span>
+          <div class="service__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 12h2m4 0V7m0 5v5m4-9v9m0-9V5m4 9V8m0 6v3m4-5h2"/></svg>
+          </div>
+          <h3>Disputed Utterance Analysis</h3>
+          <p>Isolating background noise and empirically evaluating contested speech sounds using advanced spectral analysis.</p>
+        </article>
+        <article class="service">
+          <span class="service__num">03</span>
+          <div class="service__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+          </div>
+          <h3>Forensic Transcription &amp; Clarification</h3>
+          <p>Enhancing speech intelligibility and producing objective, cross-examinable transcription logs.</p>
+        </article>
+        <article class="service">
+          <span class="service__num">04</span>
+          <div class="service__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+          </div>
+          <h3>Cross-Jurisdictional Speech Work</h3>
+          <p>Native-level linguistic analysis for Spanish-language audio evidence and multilingual intercepts.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section class="section section--alt" id="credentials">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="eyebrow">The Interdisciplinary Edge</span>
+        <h2>Sound science, linguistics, and the law</h2>
+        <p>Tilehouse Audio Forensics operates at the intersection of three disciplines — each one load-bearing for evidence that withstands cross-examination.</p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar__label">Acoustic Science</div>
+          <h3>16 years in the studio</h3>
+          <p>Professional commercial studio practice managing complex audio signal flows and digital capture environments.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar__label">Linguistics</div>
+          <h3>MA (Hons), Edinburgh</h3>
+          <p>Linguistics specialising in phonetics, acoustic analysis, and speech structures.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar__label">Legal Compliance</div>
+          <h3>MA in Law, Distinction</h3>
+          <p>The University of Law. Bond Solon trained in expert-witness report writing; fully versed in CrimPR Part 19 / CPR Part 35 duties.</p>
+        </div>
+      </div>
+
+      <div class="creds-strip">
+        <div class="item">
+          <span class="dot">◆</span>
+          <span><strong>Professional Affiliations</strong>Member of the Audio Engineering Society (M.A.E.S.).</span>
+        </div>
+        <div class="item">
+          <span class="dot">◆</span>
+          <span><strong>Funding Frameworks</strong>Full acceptance of Legal Aid Agency (LAA) codified rates.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTRUCTION PORTAL -->
+  <section class="section" id="instruct">
+    <div class="wrap portal">
+      <div class="portal__intro">
+        <span class="eyebrow">Instruction Portal</span>
+        <h2>Instructing the expert</h2>
+        <p>Request an itemized cost estimate for Legal Aid Prior Authority applications or private instructions.</p>
+        <p>All inquiries are strictly confidential and handled via secure, encrypted digital workflows.</p>
+        <div class="portal__assure">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          Encrypted submission · UK GDPR-compliant
+        </div>
+      </div>
+
+      <form class="form" onsubmit="event.preventDefault(); this.querySelector('.btn--solid').textContent='Inquiry received — thank you';">
+        <div class="field">
+          <label for="firm">Instructing Solicitor — Name / Firm</label>
+          <input id="firm" name="firm" type="text" placeholder="e.g. J. Smith, Smith &amp; Co Solicitors" required />
+        </div>
+        <div class="field">
+          <label for="email">Contact Email Address</label>
+          <input id="email" name="email" type="email" placeholder="name@firm.co.uk" required />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="case">Case Type</label>
+            <select id="case" name="case">
+              <option value="" disabled selected>Select…</option>
+              <option>Criminal</option>
+              <option>Civil</option>
+              <option>Family</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="funding">Funding</label>
+            <select id="funding" name="funding">
+              <option value="" disabled selected>Select…</option>
+              <option>Legal Aid Agency (LAA)</option>
+              <option>Private</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="summary">Brief Summary of Audio Issue <span class="hint">— do not include sensitive names</span></label>
+          <textarea id="summary" name="summary" placeholder="Outline the exhibit type, format, and the question in dispute."></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid btn--lg" style="width:100%; justify-content:center;">Send Secure Inquiry</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <div class="footer__brand">Tilehouse Audio Forensics</div>
+        <p class="footer__legal">A trading style of Tilehouse Audio Ltd. All legal exhibits are handled via secure, encrypted digital workflows in compliance with UK GDPR. Instructions are executed in accordance with the Forensic Science Regulator's Code of Practice.</p>
+      </div>
+      <div class="footer__meta">
+        Criminal · Civil · Family<br />
+        Legal Aid &amp; Private instructions<br />
+        United Kingdom
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Build the hero spectrogram signature: organic vertical bars (a spectral readout).
+    (function () {
+      var spectro = document.getElementById('spectro');
+      if (!spectro) return;
+      var N = 120;
+      for (var i = 0; i < N; i++) {
+        var bar = document.createElement('div');
+        bar.className = 'spectro__bar';
+        // shaped envelope so the band reads like a real spectral signature, not noise
+        var env = Math.sin((i / N) * Math.PI);
+        var h = (8 + Math.random() * 92 * (0.35 + env * 0.65));
+        bar.style.height = h + '%';
+        bar.style.opacity = (0.25 + Math.random() * 0.6).toFixed(2);
+        spectro.appendChild(bar);
+      }
+      // small spectral rule above the Services heading
+      var rule = document.getElementById('rule1');
+      if (rule) {
+        for (var j = 0; j < 48; j++) {
+          var s = document.createElement('span');
+          s.style.height = (4 + Math.random() * 18) + 'px';
+          rule.appendChild(s);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
