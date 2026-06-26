@@ -236,8 +236,16 @@
     .portal { grid-template-columns: 1fr; }
     .footer__meta { text-align: left; }
   }
+  /* Phones: the full wordmark + "Submit Secure Inquiry" button can't share a
+     ~390px bar without colliding (and the old fixed 74px height clipped the
+     wrapped button). Drop the redundant nav CTA — the hero carries a prominent
+     "Submit Secure Inquiry" button — and give the wordmark the whole bar. */
   @media (max-width: 480px) {
     .field-row { grid-template-columns: 1fr; }
+    .nav__inner { height: auto; min-height: 58px; padding-block: 9px; }
+    .nav__cta { display: none; }
+    .brand__name { font-size: 1.06rem; white-space: nowrap; }
+    .brand__sub  { font-size: 0.55rem; letter-spacing: 0.2em; white-space: nowrap; }
   }
 
   @media (prefers-reduced-motion: no-preference) {
